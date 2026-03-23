@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ClearMind</title>
+    <link rel="icon" href="/static/logo.jpeg" type="image/jpeg">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ===============================
+NAVBAR
+=============================== -->
+<div class="navbar">
+    <div class="logo">
+        <img src="/static/logo.jpeg" alt="ClearMind Logo">
+    </div>
+    <div class="nav-links">
+        <a href="/" class="btn">Home</a>
+    </div>
+</div>
+
+<!-- ===============================
+LOGIN PAGE
+=============================== -->
+<div class="page active">
+    <div class="grid">
+        <div class="card" style="max-width: 400px; margin: 0 auto;">
+            <h1 class="card-title">Login to ClearMind</h1>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div style="background: #dc2626; color: white; padding: 10px; border-radius: 6px; margin-bottom: 20px;">
+                        {% for message in messages %}
+                            <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <input type="email" id="email" name="email" placeholder="Email" required style="width: 100%; margin-bottom: 15px;">
+                <input type="password" id="password" name="password" placeholder="Password" required style="width: 100%; margin-bottom: 20px;">
+                <button type="submit" class="btn" style="width: 100%;">Login</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 20px; color: #94a3b8;">
+                Don't have an account? <a href="/register" style="color: #38bdf8;">Sign up here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

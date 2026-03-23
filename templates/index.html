@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearMind - Master Your Thinking</title>
+<link rel="icon" href="/static/logo.jpeg" type="image/jpeg">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ===============================
+NAVBAR
+=============================== -->
+<div class="navbar">
+    <button id="backBtn" class="back-btn" onclick="showPage('homePage')" style="display:none;">← Home</button>
+    <div class="logo">
+        <img src="/static/logo.jpeg" alt="ClearMind Logo">
+    </div>
+    <div class="nav-links">
+        <button onclick="showPage('homePage')">Home</button>
+        <button onclick="showPage('explainPage')">Explain</button>
+        <button onclick="showPage('practicePage')">Practice</button>
+        <button onclick="showPage('reflectPage')">Reflect</button>
+        <button onclick="showPage('profilePage')">Profile</button>
+    </div>
+</div>
+
+<!-- ===============================
+HOME PAGE
+=============================== -->
+<div id="homePage" class="page active">
+    <h1 class="page-title">Welcome to ClearMind</h1>
+
+    <div class="grid">
+        <div class="card">
+            <h3 class="card-title">🤖 AI Topic Explanation</h3>
+            <p>Get clear, personalized explanations for any topic you want to learn.</p>
+            <button onclick="showPage('explainPage')" class="btn">Start Learning</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">📝 Self-Assessment</h3>
+            <p>Write your own explanations and get AI feedback to improve your understanding.</p>
+            <button onclick="showPage('practicePage')" class="btn">Practice Now</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">🌍 Real-World Problems</h3>
+            <p>Apply concepts to practical scenarios and see how they work in the real world.</p>
+            <button onclick="showPage('practicePage')" class="btn">Explore Problems</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">🔄 Reflection & Growth</h3>
+            <p>Analyze your thinking patterns and identify areas for improvement.</p>
+            <button onclick="showPage('reflectPage')" class="btn">Reflect</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">📊 Progress Tracking</h3>
+            <p>Monitor your learning journey and see your improvement over time.</p>
+            <button onclick="calculateMastery()" class="btn">View Progress</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">🎯 Mastery Score</h3>
+            <p>Get quantitative feedback on your overall understanding.</p>
+            <div id="masteryScore" class="score-panel">
+                <div class="score-value">--</div>
+                <div class="score-label">Calculate your score</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===============================
+EXPLAIN PAGE
+=============================== -->
+<div id="explainPage" class="page">
+    <div class="page-header">
+        <button onclick="showPage('homePage')" class="back-btn" title="Back to Home">← Home</button>
+        <h1 class="page-title">AI Topic Explanation</h1>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3 class="card-title">Enter Topic</h3>
+            <input type="text" id="topicInput" placeholder="Enter topic (e.g. Newton's Laws)">
+            <button onclick="explainTopic()" class="btn">Explain Topic</button>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">AI Explanation</h3>
+            <div id="explainResult" class="result-box">
+                Your explanation will appear here...
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===============================
+PRACTICE PAGE
+=============================== -->
+<div id="practicePage" class="page">
+    <div class="page-header">
+        <button onclick="showPage('homePage')" class="back-btn" title="Back to Home">← Home</button>
+        <h1 class="page-title">Practice & Assessment</h1>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3 class="card-title">Explain in Your Own Words</h3>
+            <textarea id="studentExplanation" placeholder="Write your explanation..."></textarea>
+            <button onclick="evaluateExplanation()" class="btn">Evaluate Explanation</button>
+            <div id="evaluationResult" class="result-box"></div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Real World Problem</h3>
+            <button onclick="generateProblem()" class="btn">Generate Problem</button>
+            <div id="problemOutput" class="result-box">
+                Problem will appear here...
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Revision Practice</h3>
+            <textarea id="revisionText" placeholder="Write everything you remember about the topic..."></textarea>
+            <button onclick="checkRevision()" class="btn">Check Revision</button>
+            <div id="revisionFeedback" class="result-box"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===============================
+REFLECT PAGE
+=============================== -->
+<div id="reflectPage" class="page">
+    <div class="page-header">
+        <button onclick="showPage('homePage')" class="back-btn" title="Back to Home">← Home</button>
+        <h1 class="page-title">Reflection & Growth</h1>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3 class="card-title">Learning Reflection</h3>
+            <textarea id="reflectionText" placeholder="Write your learning reflection..."></textarea>
+            <button onclick="analyzeReflection()" class="btn">Analyze Reflection</button>
+            <div id="reflectionAnalysis" class="result-box"></div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Your Progress</h3>
+            <div class="score-panel">
+                <div class="score-value">--</div>
+                <div class="score-label">Mastery Score</div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <button onclick="calculateMastery()" class="btn">Update Score</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===============================
+PROFILE PAGE
+=============================== -->
+<div id="profilePage" class="page">
+    <div class="page-header">
+        <button onclick="showPage('homePage')" class="back-btn" title="Back to Home">← Home</button>
+        <h1 class="page-title">Your Profile</h1>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3 class="card-title">👤 Account Information</h3>
+            <div style="margin-bottom: 20px;">
+                <p><strong>Email:</strong> {{ session.user_email }}</p>
+                <p><strong>Member since:</strong> {{ session.get('created_at', 'Recently') }}</p>
+            </div>
+            <div class="reflection-box">
+                <h4>Account Settings</h4>
+                <p>Your learning data is securely stored and associated with your account.</p>
+                <p>You can access all your explanations, reflections, and progress from any device.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">🚪 Account Actions</h3>
+            <p>Ready to take a break from learning?</p>
+            <div style="margin-top: 20px;">
+                <a href="/logout" class="btn" style="background: #dc2626; border: none; color: white;" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+            </div>
+            <div class="reflection-box" style="margin-top: 20px;">
+                <p><strong>Note:</strong> Your progress will be saved and available when you log back in.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
