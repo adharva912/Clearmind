@@ -14,15 +14,16 @@ ClearMind is an AI-powered learning platform that helps students master topics t
 - **Mastery Scoring**: Get quantitative feedback on your understanding
 
 ## Setup
-1. Install dependencies: `pip install flask`
-2. Run: `python app.py`
-3. Open http://127.0.0.1:5000
-4. Register a new account or login
+1. Install dependencies: `pip install -r requirements.txt`
+2. Set your Gemini API key: `export GEMINI_API_KEY=your_api_key_here` (or set environment variable)
+3. Run: `python app.py`
+4. Open http://127.0.0.1:5000
+5. Register a new account or login
 
 ## Current Status
 - ✅ User authentication system (file-based storage)
 - ✅ All UI components and pages
-- ✅ Mock AI responses (Gemini API temporarily disabled due to Python 3.14.3 compatibility)
+- ✅ Real AI responses (Gemini API enabled with Python 3.14.3 compatibility)
 - ✅ Data persistence for user activities
 
 ## Data Storage
@@ -45,9 +46,8 @@ The app uses JSON file-based storage:
 - **Data Persistence**: All your work is saved to your account
 
 ## Next Steps
-1. **Fix Gemini API**: Update to compatible version for Python 3.14.3
-2. **Database Migration**: Consider moving to SQLite/PostgreSQL for production
-3. **User Dashboard**: Add pages to view learning history
+1. **Database Migration**: Consider moving to SQLite/PostgreSQL for production
+2. **User Dashboard**: Add pages to view learning history
 4. **Progress Analytics**: Visual charts and insights
 5. **Export Features**: Allow users to export their data
 

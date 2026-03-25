@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
-# import google.generativeai as genai  # Temporarily disabled due to Python 3.14.3 compatibility
+import google.generativeai as genai
 import json
 import os
 from datetime import datetime
@@ -26,10 +26,18 @@ os.makedirs(USER_DATA_DIR, exist_ok=True)
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 
 # Configure Gemini
-# genai.configure(api_key=GEMINI_API_KEY)
+genai.configure(api_key=GEMINI_API_KEY)
 
 # Choose model
-# model = genai.GenerativeModel("gemini-2.5-flash")
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# Helper function for AI responses
+def generate_ai_response(prompt):
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"AI Error: {str(e)}. Using fallback response."
 
 # -------------------------------
 # UTILITY FUNCTIONS
@@ -159,24 +167,8 @@ def explain_topic():
     data = request.json
     topic = data.get("topic")
 
-    # Mock response for now
-    result = f"""
-    Here's a clear explanation of {topic}:
-
-    **Key Concepts:**
-    - This is a fundamental concept in the field
-    - It involves understanding the basic principles
-    - Applications are widespread in real-world scenarios
-
-    **Simple Explanation:**
-    {topic} refers to the process or system that helps us understand how things work in a particular domain.
-
-    **Real Example:**
-    Consider how we use {topic} in everyday life - it helps us make better decisions and solve problems more effectively.
-
-    **Why it matters:**
-    Understanding {topic} gives you a foundation for learning more advanced concepts in this field.
-    """
+    prompt = f"Explain the topic '{topic}' in a clear, educational way suitable for students. Include key concepts, simple explanation, real examples, and why it matters. Structure your response with headings."
+    result = generate_ai_response(prompt)
 
     return jsonify({
         "status": "success",
@@ -195,27 +187,8 @@ def generate_problem():
     data = request.json
     topic = data.get("topic")
 
-    # Mock problem generation
-    result = f"""
-    **Real-World Problem: Applying {topic} in Environmental Science**
-
-    **Problem Statement:**
-    A coastal city is experiencing rapid sea-level rise due to climate change. The city needs to develop a comprehensive plan to protect its infrastructure and population.
-
-    **Background:**
-    - Sea levels are rising at an average of 3.3mm per year globally
-    - Coastal cities worldwide face similar challenges
-    - Economic costs of inaction are estimated in billions of dollars
-
-    **Challenge Question:**
-    How can principles of {topic} be applied to design sustainable coastal protection systems that balance environmental, economic, and social factors?
-
-    **Consider:**
-    - Engineering solutions (sea walls, levees)
-    - Natural approaches (mangrove restoration, beach nourishment)
-    - Community planning and evacuation strategies
-    - Long-term sustainability vs. short-term costs
-    """
+    prompt = f"Generate a real-world problem that applies the concept of '{topic}'. Include a problem statement, background information, challenge question, and considerations. Structure it educationally."
+    result = generate_ai_response(prompt)
 
     # Save to user data
     user_id = session['user_id']
@@ -245,27 +218,8 @@ def evaluate_explanation():
     topic = data.get("topic")
     student_explanation = data.get("explanation")
 
-    # Mock AI feedback
-    result = f"""
-    **Evaluation of your explanation of {topic}:**
-
-    **Strengths:**
-    - You provided a clear structure
-    - Good attempt at explaining the concept
-    - Shows understanding of basic principles
-
-    **Areas for improvement:**
-    - Could include more specific examples
-    - Consider adding mathematical relationships if applicable
-    - Try to connect to real-world applications
-
-    **Suggestions:**
-    - Review the fundamental definitions
-    - Practice explaining to someone else
-    - Look for additional examples online
-
-    **Score: 75/100** - Good foundation, needs more depth.
-    """
+    prompt = f"Evaluate this student explanation of '{topic}':\n\n{student_explanation}\n\nProvide constructive feedback including strengths, areas for improvement, suggestions, and a score out of 100."
+    result = generate_ai_response(prompt)
 
     # Save to user data
     user_id = session['user_id']
@@ -295,33 +249,8 @@ def analyze_reflection():
     data = request.json
     reflection = data.get("reflection")
 
-    # Mock reflection analysis
-    result = f"""
-    **Analysis of Your Learning Reflection:**
-
-    **Positive Patterns Identified:**
-    - You're actively engaging with the material
-    - Showing metacognitive awareness
-    - Willing to identify areas for improvement
-
-    **Thinking Patterns:**
-    - Analytical approach to problem-solving
-    - Good self-assessment skills
-    - Focus on practical applications
-
-    **Potential Biases to Watch For:**
-    - Confirmation bias in interpreting results
-    - Overconfidence in familiar areas
-    - Anchoring to initial hypotheses
-
-    **Suggestions for Growth:**
-    - Try different problem-solving approaches
-    - Seek feedback from peers regularly
-    - Practice explaining concepts to others
-    - Keep a learning journal for long-term patterns
-
-    **Overall Assessment:** You're developing strong learning habits. Continue building on these foundations!
-    """
+    prompt = f"Analyze this learning reflection:\n\n{reflection}\n\nIdentify positive patterns, thinking patterns, potential biases, and suggestions for growth."
+    result = generate_ai_response(prompt)
 
     # Save to user data
     user_id = session['user_id']
@@ -351,33 +280,8 @@ def revision_check():
     topic = data.get("topic")
     revision_text = data.get("revision")
 
-    # Mock revision feedback
-    result = f"""
-    **Revision Analysis for {topic}:**
-
-    **What you remembered correctly:**
-    - Core concepts are well understood
-    - Key relationships identified
-    - Good grasp of fundamental principles
-
-    **Important concepts to review:**
-    - Some technical details need reinforcement
-    - Edge cases and exceptions
-    - Practical applications could be expanded
-
-    **Missing elements to study:**
-    - Historical context and development
-    - Alternative approaches or methods
-    - Common misconceptions to avoid
-
-    **Study Recommendations:**
-    - Focus on applying concepts to new problems
-    - Create mind maps connecting different ideas
-    - Teach the concept to someone else
-    - Review past mistakes and corrections
-
-    **Confidence Level:** 70% - Solid foundation with room for deeper understanding.
-    """
+    prompt = f"Analyze this revision text for '{topic}':\n\n{revision_text}\n\nEvaluate what is remembered correctly, what needs review, missing elements, and provide study recommendations with a confidence level."
+    result = generate_ai_response(prompt)
 
     # Save to user data
     user_id = session['user_id']
